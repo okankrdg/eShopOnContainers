@@ -1,4 +1,7 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Ordering.SignalrHub.IntegrationEvents.EventHandling;
+using Ordering.SignalrHub.IntegrationEvents.Events;
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
@@ -10,6 +13,7 @@ builder.Services.AddSingleton<IIntegrationEventHandler<OrderStatusChangedToPaidI
 builder.Services.AddSingleton<IIntegrationEventHandler<OrderStatusChangedToShippedIntegrationEvent>, OrderStatusChangedToShippedIntegrationEventHandler>();
 builder.Services.AddSingleton<IIntegrationEventHandler<OrderStatusChangedToStockConfirmedIntegrationEvent>, OrderStatusChangedToStockConfirmedIntegrationEventHandler>();
 builder.Services.AddSingleton<IIntegrationEventHandler<OrderStatusChangedToSubmittedIntegrationEvent>, OrderStatusChangedToSubmittedIntegrationEventHandler>();
+builder.Services.AddSingleton<IIntegrationEventHandler<OrderStatusChangedToCompletedIntegrationEvent>, OrderStatusChangedToCompletedIntegrationEventHandler>();
 
 var app = builder.Build();
 
@@ -25,5 +29,6 @@ eventBus.Subscribe<OrderStatusChangedToStockConfirmedIntegrationEvent, OrderStat
 eventBus.Subscribe<OrderStatusChangedToShippedIntegrationEvent, OrderStatusChangedToShippedIntegrationEventHandler>();
 eventBus.Subscribe<OrderStatusChangedToCancelledIntegrationEvent, OrderStatusChangedToCancelledIntegrationEventHandler>();
 eventBus.Subscribe<OrderStatusChangedToSubmittedIntegrationEvent, OrderStatusChangedToSubmittedIntegrationEventHandler>();
+eventBus.Subscribe<OrderStatusChangedToCompletedIntegrationEvent, OrderStatusChangedToCompletedIntegrationEventHandler>();
 
 await app.RunAsync();
