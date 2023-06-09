@@ -36,6 +36,10 @@ public class OrderingContextSeed
                                             ? GetOrderStatusFromFile(contentRootPath, logger)
                                             : GetPredefinedOrderStatus());
                 }
+                if(!context.OrderStatus.Any(os => os.Id == OrderStatus.Completed.Id))
+                {
+                    context.OrderStatus.Add(OrderStatus.Completed);
+                }
 
                 await context.SaveChangesAsync();
             }
@@ -134,7 +138,8 @@ public class OrderingContextSeed
             OrderStatus.StockConfirmed,
             OrderStatus.Paid,
             OrderStatus.Shipped,
-            OrderStatus.Cancelled
+            OrderStatus.Cancelled,
+            OrderStatus.Completed
         };
     }
 
