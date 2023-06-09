@@ -1,4 +1,5 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿
+var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
@@ -26,6 +27,7 @@ services.AddSingleton<IValidator<CancelOrderCommand>, CancelOrderCommandValidato
 services.AddSingleton<IValidator<CreateOrderCommand>, CreateOrderCommandValidator>();
 services.AddSingleton<IValidator<IdentifiedCommand<CreateOrderCommand, bool>>, IdentifiedCommandValidator>();
 services.AddSingleton<IValidator<ShipOrderCommand>, ShipOrderCommandValidator>();
+services.AddSingleton<IValidator<CompleteOrderCommand>, CompletedOrderCommandValidator>();
 
 services.AddScoped<IOrderQueries>(sp => new OrderQueries(builder.Configuration.GetConnectionString("OrderingDB")));
 services.AddScoped<IBuyerRepository, BuyerRepository>();
