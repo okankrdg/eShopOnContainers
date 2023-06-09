@@ -137,4 +137,24 @@ public class OrderingService : IOrderingService
             RequestId = order.RequestId
         };
     }
+
+    public async Task CompleteOrder(string orderId)
+    {
+        var order = new OrderDTO()
+        {
+            OrderNumber = orderId
+        };
+
+        var uri = API.Order.CompletedOrder(_remoteServiceBaseUrl);
+        var orderContent = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PutAsync(uri, orderContent);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            throw new Exception("Error in complete order process, try later.");
+        }
+
+        response.EnsureSuccessStatusCode();
+    }
 }

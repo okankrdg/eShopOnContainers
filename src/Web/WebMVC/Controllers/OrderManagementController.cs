@@ -26,6 +26,10 @@ public class OrderManagementController : Controller
         {
             await _orderSvc.ShipOrder(orderId);
         }
+        else if (OrderProcessAction.Completed.Code == actionCode)
+        {
+            await _orderSvc.CompleteOrder(orderId);
+        }
 
         return RedirectToAction("Index");
     }

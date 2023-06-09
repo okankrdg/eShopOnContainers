@@ -31,7 +31,7 @@
                     <form asp-action="OrderProcess" id="orderForm+@item.OrderNumber" method="post">
                         <input type="hidden" name="orderId" value="@item.OrderNumber" />
                         <select name="actionCode" asp-items="@item.ActionCodeSelectList"
-                                disabled=@(item.Status != "paid")
+                                disabled=@(!(item.Status == "paid" || item.Status == "shipped"))
                                 onchange="document.getElementById('orderForm+@item.OrderNumber').submit()">
                             <option value="">&nbsp;&nbsp;Select Action</option>
                             <option value="">------------------</option>
