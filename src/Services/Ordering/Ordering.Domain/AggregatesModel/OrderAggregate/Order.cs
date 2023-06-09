@@ -1,4 +1,6 @@
-﻿namespace Microsoft.eShopOnContainers.Services.Ordering.Domain.AggregatesModel.OrderAggregate;
+﻿using Ordering.Domain.Events;
+
+namespace Microsoft.eShopOnContainers.Services.Ordering.Domain.AggregatesModel.OrderAggregate;
 
 public class Order
     : Entity, IAggregateRoot
@@ -154,6 +156,17 @@ public class Order
         _orderStatusId = OrderStatus.Cancelled.Id;
         _description = $"The order was cancelled.";
         AddDomainEvent(new OrderCancelledDomainEvent(this));
+    }
+    public void SetCompletedStatus()
+    {
+        if (_orderStatusId != OrderStatus.Shipped.Id) 
+        {
+            StatusChangeException(OrderStatus.Completed);
+        }
+
+        _orderStatusId = OrderStatus.Completed.Id;
+        _description = "The order was completed.";
+        AddDomainEvent(new OrderCompletedDomainEvent(this));
     }
 
     public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
