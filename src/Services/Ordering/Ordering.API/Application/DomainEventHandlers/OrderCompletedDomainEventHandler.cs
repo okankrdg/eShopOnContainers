@@ -23,7 +23,7 @@ public partial class OrderCompletedDomainEventHandler : INotificationHandler<Ord
 
     public async Task Handle(OrderCompletedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.Order.Id, nameof(OrderStatus.Cancelled), OrderStatus.Cancelled.Id);
+        OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.Order.Id, nameof(OrderStatus.Completed), OrderStatus.Completed.Id);
 
         var order = await _orderRepository.GetAsync(domainEvent.Order.Id);
         var buyer = await _buyerRepository.FindByIdAsync(order.GetBuyerId.Value.ToString());
